@@ -1,66 +1,83 @@
+const data = require("../data/products");
 const mongoose = require("mongoose");
-
 const Movie = mongoose.model("movies");
 
 module.exports = (app) => {
-  app.get("/test", (req, res) => {
-    console.log("Hi there!");
-    res.send("Hi there! Also, Yay!");
-  });
-
-  app.get("/api/v1/get/movies", async (req, res) => {
-    console.log("Movies List");
-    const response = await Movie.find();
-    res.send(response);
-  });
-
-  app.post("/api/v1/add/movie", async (req, res) => {
-    const { name, director, duration, genre, description, score, image } =
+  // Add Movie
+  app.post("/api/v1/movie/add", async (req, res) => {
+    console.log("Add Movie");
+    const { name, duration, director, description, genre, image, score } =
       req.body;
-
     try {
-      const movieFields = {
+      const movie = await Movie.findOne({ name }); // Check if user already exists
+      if (movie) {
+        return res.status(400).json({ message: "Movie already exists" });
+      }
+      movieFields = {
         name,
-        director,
         duration,
-        genre,
+        director,
         description,
-        score,
+        genre,
         image,
+        score,
       };
-
       const response = await Movie.create(movieFields);
-      res.status(201).json(response);
+      res.status(201).json({ message: "Movie added successfully", response });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      console.log(error);
+      res.status(500).json({ message: error.message });
     }
   });
 
-  app.delete("/api/v1/delete/movie/:id", async (req, res) => {
-    const { id } = req.params;
-    const response = await Movie.findByIdAndDelete(id);
-    res.status(200).json(response);
-  });
-
-  app.put("/api/v1/update/movie/:id", async (req, res) => {
-    const { id } = req.params;
-    const { name, director, duration, genre, description, score, image } =
-      req.body;
-    const response = await Movie.findByIdAndUpdate(id, {
-      name,
-      director,
-      duration,
-      genre,
-      description,
-      score,
-      image,
-    });
-    res.status(200).json(response);
-  });
-
+  //   something.com/login.php?id=23
+  // Get One Specific Movie
   app.get("/api/v1/get/movie/:id", async (req, res) => {
     const { id } = req.params;
     const response = await Movie.findById(id);
-    res.status(200).json(response);
+    res.status(200).json({ message: "User fetched successfully", response });
+  });
+
+  // Get All Movies
+  app.get("/api/v1/get/movies", async (req, res) => {
+    try {
+      const response = await Movie.find().populate("director", "name phone");
+      res
+        .status(200)
+        .json({ message: "Movies fetched successfully", response });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Update Movie Info
+  app.put("/api/v1/update/movie/:id", async (req, res) => {
+    const { id } = req.params;
+    const { name, phone } = req.body;
+    try {
+      const response = await Movie.updateOne({ _id: id }, { name, phone });
+      res.status(200).json({ message: "User updated successfully", response });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Delete Movie
+  app.delete("/api/v1/delete/movie/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+      const response = await Movie.findByIdAndDelete(id);
+      res.status(200).json({ message: "User deleted successfully", response });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: error.message });
+    }
+  });
+  // TEST
+  app.get("/api/test", (req, res) => {
+    console.log("Get Products");
+    res.json({ message: "Products: ", data });
   });
 };

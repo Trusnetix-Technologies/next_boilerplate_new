@@ -1,23 +1,30 @@
 const express = require("express");
 const mongoose = require("mongoose");
-require("dotenv").config();
+require("dotenv").config(); // Load environment variables
 
-const port = process.env.PORT || 5001;
+const port = process.env.PORT;
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-mongoose.connect(process.env.MONGO_URI, {}).then(() => {
-  console.log("Connected to MongoDB succesfully. Double Yay!");
-});
+mongoose
+  .connect(process.env.MONGO_URI, {})
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.log("Error connecting to MongoDB", err);
+  });
 
-// IMPORT MODELS
-require("./models/movie");
+// Import Models
+require("./models/Movie");
+require("./models/User");
 
-// IMPORT ROUTES
+// Import Routes
 require("./routes/movieRoutes")(app);
+require("./routes/userRoutes")(app);
 
 app.listen(port, () => {
-  console.log("Server is running. Yay!");
+  console.log(`Server is running on port ${port}`);
 });
