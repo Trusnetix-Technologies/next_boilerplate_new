@@ -75,6 +75,7 @@ module.exports = (app) => {
       res.status(500).json({ message: error.message });
     }
   });
+
   // TEST
   app.get("/api/test", (req, res) => {
     console.log("Get Products");

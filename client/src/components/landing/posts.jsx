@@ -29,7 +29,7 @@ export default function Posts() {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get("https://dummyjson.com/products");
+      const response = await axios.get("/api/v1/get/movies");
       console.log(response.data);
       setProducts(response.data);
     } catch (err) {
@@ -59,19 +59,19 @@ export default function Posts() {
         sx={{ paddingBottom: "50px" }}
       >
         {products ? (
-          products.products.map((post, index) => (
+          products.response.map((post, index) => (
             <Grid key={index}>
               <Card sx={{ maxWidth: 345 }}>
                 <CardActionArea>
                   <CardMedia
                     component="img"
                     height="140"
-                    image={post.thumbnail}
+                    image={post.image}
                     alt="green iguana"
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                      {post.title}
+                      {post.name}
                     </Typography>
                     <Typography
                       variant="body2"
