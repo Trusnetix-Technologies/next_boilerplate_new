@@ -44,6 +44,7 @@ module.exports = (app) => {
       res.status(500).json({ message: error.message });
     }
   });
+
   // Update User Info
   app.put("/api/v1/update/user/:id", async (req, res) => {
     const { id } = req.params;

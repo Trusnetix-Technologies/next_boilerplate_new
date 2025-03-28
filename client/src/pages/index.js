@@ -1,6 +1,13 @@
 import Head from "next/head";
-import { CssBaseline } from "@mui/material";
-import Posts from "../components/landing/posts";
+import { Box, CssBaseline } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import Card from "@mui/material/Card";
+import CardActionArea from "@mui/material/CardActionArea";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Grid from "@mui/material/Grid2";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -24,7 +31,67 @@ export default function Home() {
           color: "black",
         }}
       >
-        <Posts />
+        <Container maxWidth="md">
+          <Typography variant="h1">
+            Welcome to the Next.JS Boilerplate
+          </Typography>
+          <Typography variant="h6">
+            This is a boilerplate for a Next.JS project.
+          </Typography>
+          <Box height={25} />
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <Link href="/products" style={{ textDecoration: "none" }}>
+                <Card sx={{ maxWidth: 345 }}>
+                  <CardActionArea>
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1399&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                      alt="green iguana"
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        Products
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{ color: "text.secondary" }}
+                      >
+                        My Favourite Products
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Link>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Link href="/movies" style={{ textDecoration: "none" }}>
+                <Card sx={{ maxWidth: 345 }}>
+                  <CardActionArea>
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image="https://plus.unsplash.com/premium_photo-1710961232728-1bd418c4081d?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                      alt="green iguana"
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        Movies
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{ color: "text.secondary" }}
+                      >
+                        My Favourite Movies
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Link>
+            </Grid>
+          </Grid>
+        </Container>
       </div>
     </>
   );

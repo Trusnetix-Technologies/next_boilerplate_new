@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import * as React from "react";
+import Link from "next/link";
 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -12,6 +13,8 @@ import Grid from "@mui/material/Grid2";
 import { Container, Box } from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
+import User from "../common/User";
+import Button from "@mui/material/Button";
 
 export default function Posts() {
   const [products, setProducts] = useState(null);
@@ -49,8 +52,12 @@ export default function Posts() {
         alignItems="center"
         gap={2}
       >
-        <Typography variant="h1">Movies!</Typography>
-        <Typography variant="h6">My Favourite Movies</Typography>
+        <Typography variant="h1">Products!</Typography>
+        <Typography variant="h6">My Favourite Products</Typography>
+        <User />
+        <Link href="/">
+          <Button variant="contained">Go back</Button>
+        </Link>
       </Box>
       <Grid
         container

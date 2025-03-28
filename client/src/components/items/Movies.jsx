@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import * as React from "react";
+import Link from "next/link";
 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -12,9 +13,11 @@ import Grid from "@mui/material/Grid2";
 import { Container, Box } from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import User from "../common/User";
 
 export default function Posts() {
-  const [products, setProducts] = useState(null);
+  const [movies, setMovies] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -29,9 +32,9 @@ export default function Posts() {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get("https://dummyjson.com/products");
+      const response = await axios.get("/api/v1/get/movies");
       console.log(response.data);
-      setProducts(response.data);
+      setMovies(response.data);
     } catch (err) {
       setError(err);
     } finally {
@@ -51,6 +54,10 @@ export default function Posts() {
       >
         <Typography variant="h1">Movies!</Typography>
         <Typography variant="h6">My Favourite Movies</Typography>
+        <User />
+        <Link href="/">
+          <Button variant="contained">Go back</Button>
+        </Link>
       </Box>
       <Grid
         container
@@ -58,20 +65,20 @@ export default function Posts() {
         justifyContent="center"
         sx={{ paddingBottom: "50px" }}
       >
-        {products ? (
-          products.products.map((post, index) => (
+        {movies ? (
+          movies.response.map((post, index) => (
             <Grid key={index}>
               <Card sx={{ maxWidth: 345 }}>
                 <CardActionArea>
                   <CardMedia
                     component="img"
                     height="140"
-                    image={post.thumbnail}
+                    image={post.image}
                     alt="green iguana"
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                      {post.title}
+                      {post.name}
                     </Typography>
                     <Typography
                       variant="body2"
