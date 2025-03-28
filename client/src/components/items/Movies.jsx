@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import * as React from "react";
 import Link from "next/link";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchUser, selectUser } from "../../redux/reducers/userReducer";
 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -21,9 +23,15 @@ export default function Posts() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const dispatch = useDispatch();
+  const user = useSelector(selectUser);
+
   useEffect(() => {
     fetchData();
-  }, []);
+    if (user.status !== "succeeded") {
+      dispatch(fetchUser());
+    }
+  }, [dispatch]);
 
   // useEffect(() => {
   //   console.log(isLoading);
@@ -54,7 +62,20 @@ export default function Posts() {
       >
         <Typography variant="h1">Movies!</Typography>
         <Typography variant="h6">My Favourite Movies</Typography>
-        <User />
+        <Box>
+          <Typography variant="h4">
+            User:{" "}
+            {user && user.status === "succeeded"
+              ? user.user.response.name
+              : null}
+          </Typography>
+          <Typography variant="h4">
+            Phone:{" "}
+            {user && user.status === "succeeded"
+              ? user.user.response.phone
+              : null}
+          </Typography>
+        </Box>
         <Link href="/">
           <Button variant="contained">Go back</Button>
         </Link>

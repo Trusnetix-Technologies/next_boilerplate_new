@@ -3,6 +3,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import * as React from "react";
 import Link from "next/link";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  fetchProducts,
+  selectProducts,
+} from "../../redux/reducers/productsReducer";
+import { fetchUser, selectUser } from "../../redux/reducers/userReducer";
 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -17,30 +23,45 @@ import User from "../common/User";
 import Button from "@mui/material/Button";
 
 export default function Posts() {
-  const [products, setProducts] = useState(null);
+  // const [products, setProducts] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const dispatch = useDispatch();
+  const user = useSelector(selectUser);
+  const products = useSelector(selectProducts);
+
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (products.status !== "succeeded") {
+      dispatch(fetchProducts());
+    }
+    if (user.status !== "succeeded") {
+      dispatch(fetchUser());
+    }
+  }, [dispatch]);
+
+  // console.log("products  data: ", products);
+
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
   // useEffect(() => {
   //   console.log(isLoading);
   // }, [isLoading]);
 
-  const fetchData = async () => {
-    setIsLoading(true);
-    try {
-      const response = await axios.get("https://dummyjson.com/products");
-      console.log(response.data);
-      setProducts(response.data);
-    } catch (err) {
-      setError(err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // const fetchData = async () => {
+  //   setIsLoading(true);
+  //   try {
+  //     const response = await axios.get("https://dummyjson.com/products");
+  //     console.log(response.data);
+  //     setProducts(response.data);
+  //   } catch (err) {
+  //     setError(err);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   return (
     <Container maxWidth="lg">
@@ -54,7 +75,20 @@ export default function Posts() {
       >
         <Typography variant="h1">Products!</Typography>
         <Typography variant="h6">My Favourite Products</Typography>
-        <User />
+        <Box>
+          <Typography variant="h4">
+            User:{" "}
+            {user && user.status === "succeeded"
+              ? user.user.response.name
+              : null}
+          </Typography>
+          <Typography variant="h4">
+            Phone:{" "}
+            {user && user.status === "succeeded"
+              ? user.user.response.phone
+              : null}
+          </Typography>
+        </Box>
         <Link href="/">
           <Button variant="contained">Go back</Button>
         </Link>
@@ -65,8 +99,8 @@ export default function Posts() {
         justifyContent="center"
         sx={{ paddingBottom: "50px" }}
       >
-        {products ? (
-          products.products.map((post, index) => (
+        {products && products.status === "succeeded" ? (
+          products.products.products.map((post, index) => (
             <Grid key={index}>
               <Card sx={{ maxWidth: 345 }}>
                 <CardActionArea>
