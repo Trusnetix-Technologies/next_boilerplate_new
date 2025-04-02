@@ -47,6 +47,7 @@ const Login = () => {
                 onChange={(f) => {
                   setOtp(f.target.value);
                 }}
+                value={otp}
               />
               <Button variant="contained" onClick={verifyOtp}>
                 Login
@@ -56,7 +57,10 @@ const Login = () => {
             <>
               <TextField
                 label="Phone Number"
-                onChange={(e) => setPhone(e.target.value)}
+                onChange={(f) => {
+                  setPhone(f.target.value);
+                }}
+                value={phone}
               />
               <Button variant="contained" onClick={sendOtp}>
                 Send OTP
