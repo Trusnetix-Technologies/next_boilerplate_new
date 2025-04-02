@@ -9,6 +9,8 @@ import CardMedia from "@mui/material/CardMedia";
 import Grid from "@mui/material/Grid2";
 import Link from "next/link";
 
+import NewAppBar from "../components/common/AppBar";
+
 export default function Home() {
   return (
     <>
@@ -22,11 +24,15 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <CssBaseline />
+
+      <NewAppBar />
+
       <div
         style={{
           backgroundColor: "white",
           minHeight: "100vh",
           margin: "0",
+          marginTop: "64px",
           padding: "0",
           color: "black",
         }}

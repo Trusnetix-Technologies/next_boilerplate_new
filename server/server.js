@@ -24,6 +24,7 @@ require("./models/User");
 // Import Routes
 require("./routes/movieRoutes")(app);
 require("./routes/userRoutes")(app);
+require("./routes/authRoutes")(app);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
