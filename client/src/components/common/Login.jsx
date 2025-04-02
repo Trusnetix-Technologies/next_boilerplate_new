@@ -44,8 +44,8 @@ const Login = () => {
             <>
               <TextField
                 label="Enter OTP"
-                onChange={(f) => {
-                  setOtp(f.target.value);
+                onChange={(event) => {
+                  setOtp(event.target.value);
                 }}
                 value={otp}
               />
@@ -57,8 +57,8 @@ const Login = () => {
             <>
               <TextField
                 label="Phone Number"
-                onChange={(f) => {
-                  setPhone(f.target.value);
+                onChange={(event) => {
+                  setPhone(event.target.value);
                 }}
                 value={phone}
               />
