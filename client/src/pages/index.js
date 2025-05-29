@@ -42,7 +42,7 @@ export default function Home() {
             Welcome to the Next.JS Boilerplate
           </Typography>
           <Typography variant="h6">
-            This is a boilerplate for a Next.JS project.
+            This project.
           </Typography>
           <Box height={25} />
           <Grid container spacing={2}>
